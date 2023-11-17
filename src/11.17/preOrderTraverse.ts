@@ -1,10 +1,10 @@
-export interface TreeNode {
+interface TreeNode {
   value: number;
   left: TreeNode | null;
   right: TreeNode | null;
 }
 
-export const tree: TreeNode = {
+const tree: TreeNode = {
   value: 5,
   left: {
     value: 3,
@@ -33,39 +33,23 @@ export const tree: TreeNode = {
     },
   },
 };
-
-// 中序遍历 - 递归
-export const inOrderTraverse = (
-  tree: TreeNode,
-  result: number[] = []
-): number[] => {
-  if (tree) {
-    inOrderTraverse(tree.left!, result);
-    result.push(tree.value);
-    inOrderTraverse(tree.right!, result);
-  }
-  return result;
-};
-// 测试中序遍历
-console.log(inOrderTraverse(tree));
-
-// 迭代实现中序遍历
-export const inOrderTraverseIteration = (
-  tree: TreeNode,
-  result: number[] = []
-): number[] => {
+// 前序遍历 - 迭代方式使用栈来模拟递归调用
+export const preOrderTraverse = (tree: TreeNode) => {
   let res: number[] = [];
   let tempNode: TreeNode | null = tree;
   let stack: TreeNode[] = [];
   while (tempNode || stack.length) {
     if (tempNode) {
-      stack.push(tempNode);
+      res.push(tempNode.value);
+      if (tempNode.right) {
+        stack.push(tempNode.right);
+      }
       tempNode = tempNode.left;
     } else {
       tempNode = stack.pop()!;
-      res.push(tempNode.value);
-      tempNode = tempNode.right;
     }
   }
   return res;
 };
+
+console.log(preOrderTraverse(tree));
